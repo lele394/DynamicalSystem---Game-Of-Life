@@ -26,7 +26,7 @@ size = 2000
 
 perc = 0.5
 m,n = size, size
-Mo = np.array([[1 if random.random() < perc else 0 for _ in range(m)] for _ in range(n)])
+Mo = np.array([[random.random() for _ in range(m)] for _ in range(n)])
 
 
 
@@ -86,7 +86,7 @@ applyPerturbation(pert, Mp)
 import tools.Tychonoff as t
 
 
-tychonoff_distance = t.mask_comparison_GPU
+tychonoff_distance = t.sum_of_diff_GPU
 
 
 # in a list because we will graph it.
@@ -116,8 +116,8 @@ import math
 
 #GPU
 for i in range(simulation_steps):
-    ca.step_GPU(Mo, ca.mask, Mo)
-    ca.step_GPU(Mp, ca.mask, Mp)
+    ca.step_GPU(Mo, ca.ss_mask, Mo)
+    ca.step_GPU(Mp, ca.ss_mask, Mp)
 
 
 
