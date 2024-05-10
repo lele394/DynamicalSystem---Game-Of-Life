@@ -111,4 +111,4 @@ def compute_percentage(mat):
     for i in range(len(mat)):
         total_true_count += np.sum(mat[i])  # Count the number of True values in the subarray
         total_cell_count += len(mat[i])  # Count the total number of cells in the subarray
-    return total_true_count / total_cell_count * 100  # Calculate the percentage
+    return total_true_count / total_cell_count   # Calculate the percentage
