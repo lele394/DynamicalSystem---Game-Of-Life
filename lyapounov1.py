@@ -24,7 +24,7 @@ simulation_steps = 300
 
 size = 2000
 
-perc = 0.5
+perc = 0.2
 m,n = size, size
 Mo = np.array([[1 if random.random() < perc else 0 for _ in range(m)] for _ in range(n)])
 
