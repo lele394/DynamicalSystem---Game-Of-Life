@@ -247,36 +247,73 @@ for i in range(1000):
 
     ]
 
-print(len(curves[0][1]))
+# print(len(curves[0][1]))
 
-from PIL import Image
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+# from PIL import Image
+# import matplotlib.pyplot as plt
+# from matplotlib.animation import FuncAnimation
 
-# Create a figure and axis
-fig, ax = plt.subplots()
-ax.set_xlim(0, 1)
-ax.set_ylim(0, 1)
+# # Create a figure and axis
+# fig, ax = plt.subplots()
+# ax.set_xlim(0, 1)
+# ax.set_ylim(0, 1)
 
-# Initialize the plot objects (lines) for each curve
-lines = [ax.plot([], [], marker='o')[0] for _ in [curves[0]]]
+# # Initialize the plot objects (lines) for each curve
+# lines = [ax.plot([], [], marker='o')[0] for _ in [curves[0]]]
 
-# Update function to animate the curves
-def update(frame):
-    ax.set_title(f'Cycle {frame}')
-    for i, line in enumerate(lines):
-        line.set_data(curves[frame][0], curves[frame][1])
-    return lines
+# # Update function to animate the curves
+# def update(frame):
+#     ax.set_title(f'Cycle {frame}')
+#     for i, line in enumerate(lines):
+#         line.set_data(curves[frame][0], curves[frame][1])
+#     return lines
 
-# Create the animation
-ani = FuncAnimation(fig, update, frames=1000, interval=10)
+# # Create the animation
+# ani = FuncAnimation(fig, update, frames=1000, interval=10)
 
-# Show the animation
-plt.show()
+# # Show the animation
+# plt.show()
 
-ani.save('animation.gif', writer='pillow', fps=10)
+# ani.save('animation.gif', writer='pillow', fps=10)
+
+
+
+
 
 
 # quit()
 
 
+
+
+
+
+
+#============================== CURVES 3D PLOT
+
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+
+# Create a 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Loop through each curve and plot it
+for i, curve in enumerate(curves):
+    x, y = curve
+    z = np.full_like(x, i)  # z-coordinate for this curve
+    ax.plot(z, x, y, color="blue", linewidth=0.2)
+
+
+
+# Set labels and title
+ax.set_xlabel('Steps')
+ax.set_ylabel('Starting filling')
+ax.set_zlabel('Filling percentage')
+ax.set_title('Evolution of the filling percentage')
+
+# Show the plot
+plt.show()

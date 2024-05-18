@@ -86,7 +86,7 @@ applyPerturbation(pert, Mp)
 import tools.Tychonoff as t
 
 
-tychonoff_distance = t.mask_comparison_GPU
+tychonoff_distance = t.Circle_Tychonoff_Distance
 
 
 # in a list because we will graph it.

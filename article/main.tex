@@ -1,10 +1,14 @@
 \documentclass{article}
 
 \usepackage{graphicx}
+\usepackage{hyperref}
+
 
 \title{Stability And Evolution Of Conway's Game Of Life}
 \author{Leo BECHET  \\
-UFR Sciences et Techniques, Besancon, FRANCE \\
+Master CompuPhys (EIPHI Graduate School, Observatoire de Besançon, \\
+Université de Bourgogne-Franche-Comté), 41bis Avenue de l’Observatoire, \\
+BP1615, 25010 Besançon cedex,France\\
 leo.bechet@edu.univ-fcomte.fr
 	}
 
@@ -18,11 +22,26 @@ leo.bechet@edu.univ-fcomte.fr
 
 
 \begin{abstract}
-Short introduction to subject of the paper \ldots 
+    The analysis of cellular automaton systems, with a focus on Conway's Game of
+     Life, yields significant insights into their dynamic behaviors. Our 
+     examination reveals a distinct plateau in the final percentage of filled 
+     cells, indicating a stable equilibrium between born, alive, and dead cells 
+     within the 10\% to 70\% filling range. Interestingly, the slope of this 
+     plateau remains consistent across varying resolutions, emphasizing its 
+     dependency on the number of simulation steps rather than resolution. 
+     Additionally, the system's evolution hints at the presence of multiple 
+     stability points or a gradual convergence process. However, attempts to model 
+     the plateau phase with an exponential decay curve prove inconclusive, 
+     suggesting a discrepancy between fitted models and observed data. 
+     Furthermore, the dynamics of the sweep's evolution exhibit intriguing 
+     patterns, initially resembling a Gaussian curve before leveling off over 
+     time. These findings underscore the intricate nature of cellular automaton 
+     systems, highlighting the need for further research to comprehend their 
+     emergent behaviors and underlying mechanisms.
 \end{abstract}
 
 \section{Introduction}
-Conway's Game of Life, conceived by mathematician John Conway in 1970, 
+Conway's Game of Life\cite{gardner1970mathematical}, conceived by mathematician John Conway in 1970, 
 is a cellular automaton operating on a grid of cells. Governed by four 
 simple rules, each cell's status is determined by its neighboring cells, 
 leading to a rich tapestry of patterns ranging from static formations to 
@@ -31,11 +50,55 @@ application in scientific domains such as computer science, mathematics,
 and biology. Its enduring significance lies in its ability to stimulate 
 inquiry into emergent complexity in various systems. In this article we 
 will explore the evolution of the automaton for different starting
-conditions.
+conditions. First we'll define the system, and how it works before realizing
+an inital analysis of the equilibrium points of the simulation. First tests will
+expose a rise in the equilibrium probability that we will try to understand, before
+studying the evolution in time. Finally we will attempt to fit the time evolution of
+the system to an exponential decrease. 
+\paragraph{}
+As of the writing of this article, there doesn't seems to have been
+any work done in this area.
+
+
+\section{Description of the system}
+The Game Of Life is a 2D cellular automaton. It is important to note that it
+has cells with only two possible state, dead or alive, charesteristic of totalistic 
+automata. Totalistic cellular automata are characterized by their rules, which only 
+consider the total number of live neighbors around each cell, rather than the specific 
+configuration of live and dead neighbors. Our system is actually a specific set of rules
+in the grand ensemble of possibilities. These automata knows as limits only the imagination of
+their creator. In the case of the Game Of Life, its relevance stems from its ability to take into
+consideration phenomena inherent to ecosystems, such as underpopulation, overpopulation, birth and death.
+
+\paragraph*{Rules}
+The rules of the Game Of Life are as follow \cite{catagolue} :
+\begin{itemize}
+    \item \textbf{Underpopulation}: A live cell with fewer than two live neighbors dies.
+    \item \textbf{Survival}: A live cell with two or three live neighbors survives to the next generation.
+    \item \textbf{Overpopulation}: A live cell with more than three live neighbors dies.
+    \item \textbf{Reproduction}: A dead cell with exactly three live neighbors becomes a live cell.
+\end{itemize}
+
+By neighbors, we consider cells in a 3x3 grid box centered on the cell.
+
+\paragraph*{Example of application}
+Below is an example where the above ruleset is applied to a simple case.
+The repetition we use here is called a "glider". It is one of the most simple
+form of complex behavior that can arise from the Game Of Life.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{res/glider.png}
+    \caption{Full cycle of a glider\cite{graph}.}
+    \label{fig:glider}
+\end{figure}
 
 
 
-
+One noteworthy characteristic of the Game Of Life ruleset is that it is Turing Complete.
+Lastly, there exist multiple databases of "objects". One that we took a look at during the
+writing of this article is Catagolue\cite{catagolue}
 
 \section{Experiment context}
 The focus lies on exploring the dynamics 
@@ -151,6 +214,12 @@ of the plateau or slitghtly off.
     \label{fig:evolution_zoom}
 \end{figure}
 
+A third aspect concerns the 84\% curve. According to Fig. \ref*{fig:full}, it is in the lower end
+of the descent. Checking the evolution, it does not appear to collapse at any time and becomes rather stable.
+Two scenarios can be imagined here. One would be that the evolution still tends towards the plateau,
+but a very slow rate. The second is that there exists other stability point inside of the simulation.
+
+
 \section{Fitting to an exponential decrease}
 In order to obtain a precise value for the plateau, we propose to fit one of the central
 curve to an exponential decay described in Eq. \ref*{eq:exp_decay}.
@@ -160,18 +229,6 @@ curve to an exponential decay described in Eq. \ref*{eq:exp_decay}.
     \label{eq:exp_decay}
 \end{equation}
 
-The following fit resulted in values of $a=0.00364699$, $b=-2.62888693$,
-$c=0.04145781$. The comparison between the points and the fit is displayed in 
-Fig \ref*{fig:decay_fit}. Fitting the whole data was not possible due to the first points.
-We believe that though the exponential decay looks to be a correct fit, it
-does not correspond to the right function. Fits using an inverse function were
-inconclusive. From the value of C, we expect that the plateau is around 4.1\%
-of population. It is however necessary to state that we have no proof that it is
-flat, and it might aswell be bumped. The bump theory actually makes sense by allowing
-descrepancies in the final value for limited number of iterations, while still leaving the 
-possibility of all percentage inside the plateau to converge to the same value for an infinite number
-of cycle. 
-
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{res/fit.png}
@@ -179,47 +236,130 @@ of cycle.
     \label{fig:decay_fit}
 \end{figure}
 
-% \paragraph{Outline}
-% First we start with a little example of the article class, which is an 
-% important documentclass. But there would be other documentclasses like 
-% book \ref{book}, report \ref{report} and letter \ref{letter} which are 
-% described in Section \ref{documentclasses}. Finally, Section 
-% \ref{conclusions} gives the conclusions.
+The following fit resulted in values of $a=0.00364699$, $b=-2.62888693$,
+$c=0.04145781$. It is important to state that the first 100 points where skipped
+in the fit. The comparison between the points and the fit is displayed in 
+Fig \ref*{fig:decay_fit}. Fitting the whole data was not possible due to the first points.
+We believe that though the exponential decay looks to be a correct fit, it
+does not correspond to the right function. Fits using an inverse function were
+inconclusive. From the value of $c$, we expect that the plateau is around 4.1\%
+of population. It is however necessary to state that we have no proof that it is
+flat, and it might aswell be bumped. The bump theory actually makes sense by allowing
+descrepancies in the final value for limited number of iterations, while still leaving the 
+possibility of all percentage inside the plateau to converge to the same value for an infinite number
+of cycle. 
+\vspace{\baselineskip}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{res/evolution_filling.png}
+    \caption{Evolution of the filling in a 3D representation.}
+    \label{fig:evolution_filling}
+\end{figure}
+
+A deeper look into the evolution of the sweep curve that we introduced in Fig. \ref*{fig:full}
+reveals that the original curve after 1 step looks bumpy before flattening around the middle 
+(see 3D representation in Fig. \ref*{fig:evolution_filling}).
+Another representation using a matplotlib generated gif is \href{https://github.com/lele394/DynamicalSystem---Game-Of-Life/blob/main/article/res/animation.gif}{available with the code}.
+
+\section*{Conclusion}
+
+The initial examination of the system revealed a plateau in the final percentage of filled 
+cells, occurring between 10\% and 70\% starting filling. This plateau suggests the presence 
+of a stable equilibrium where the balance between born, alive, and dead cells is sustainable.
+Furthermore, increasing the resolution of the simulation showed that the slope of the 
+plateau is not dependent on the resolution itself but rather on the number of simulation 
+steps. Moreover, The evolution of the system suggests either the existence of multiple 
+stability points or a slow convergence process. However, our attempts to fit a curve to 
+the plateau proved inconclusive, as the fitted exponential decay curve did not align well 
+with the observed data. Additionally, plotting the evolution of the sweep for each cycle 
+unveiled that it initially resembled a Gaussian curve but gradually flattened over time. 
+These findings underscore the complexity of cellular automaton systems and motivate further 
+research into understanding their emergent behaviors and underlying mechanisms.
 
 
 
-% \section{Documentclasses} \label{documentclasses}
-
-% \begin{itemize}
-% \item article
-% \item book 
-% \item report 
-% \item letter 
-% \end{itemize}
 
 
-% \begin{enumerate}
-% \item article
-% \item book 
-% \item report 
-% \item letter 
-% \end{enumerate}
 
-% \begin{description}
-% \item[article\label{article}]{Article is \ldots}
-% \item[book\label{book}]{The book class \ldots}
-% \item[report\label{report}]{Report gives you \ldots}
-% \item[letter\label{letter}]{If you want to write a letter.}
-% \end{description}
+\begin{thebibliography}{9}
+    \bibitem{gardner1970mathematical}
+    Gardner, Martin. “Mathematical Games - the Fantastic Combinations of John Conway’s New Solitaire Game ‘Life’ - m. Gardner - 1970.” Universität Potsdam - Didaktik Der Informatik, Universität Potsdam , Oct. 1970, \url{ddi.cs.uni-potsdam.de/HyFISCH/Produzieren/lis_projekt/proj_gamelife/ConwayScientificAmerican.htm}. Accessed 14 May 2024.
 
+    \bibitem{catagolue}
+    Goucher, A. (2015) Game of Life Object Catalogue, Catagolue. Available at: https://catagolue.hatsya.com/ (Accessed: 18 May 2024). 
 
-% \section{Conclusions}\label{conclusions}
-% There is no longer \LaTeX{} example which was written by \cite{doe}.
+    \bibitem{graph}
+    Cumming, Graeme. (2011). Introduction to Mechanistic Spatial Models for Social-Ecological Systems. DOI: 10.1007\/978\-94\-007\-0307\-0\_4.
+\end{thebibliography}
+
+\newpage
 
 
-% \begin{thebibliography}{9}
-% \bibitem[Doe]{doe} \emph{First and last \LaTeX{} example.},
-% John Doe 50 B.C. 
-% \end{thebibliography}
+\section{Appendix}
+\subsection*{Appendix A : Lyapounov exponent}
+This small appendix briefly goes over the computation of the Lyapounov exponent for the system
+
+\vspace{\baselineskip}
+
+The Lyapounov exponent was computed using 3 distinct definition of the Tychonov 
+distance. The exponent formula is 
+
+\begin{equation}
+    \frac{1}{{n+1}} \cdot \log\left(\frac{Tychonov\ distance(M_o, M_p)}{D_o}\right)
+    \label{eq:Lyapounov}
+\end{equation}
+
+Where $n$ is the cycle number, $M_o$ the original matrix evolved, $M_p$ the perturbed matrix
+evolved, $D_o$ the difference between the first original and first perturbed matrix, and $Tychonov\ distance$
+a function giving the Tychonov distance according to the current definition. 
+
+\paragraph{First method : Mask comparison}
+The first Tychonov method counts the number of cells different between 2 grids. When plugged
+in the Lyapounov exponent formula, the exponent tends towards 0.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{res/lyapounov_1.png}
+    \caption{Lyapounov exponent evolution using the mask comparison method.}
+    \label{fig:lyapounov_1}
+\end{figure}
+
+
+
+\paragraph{Second method : Linear comparison}
+The second Tychonov method counts the number of cells until one is different between 2 grids by 
+linearising the matrices (putting rows one after the other). When plugged
+in the Lyapounov exponent formula, the exponent tends towards $0^-$.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{res/lyapounov_2.png}
+    \caption{Lyapounov exponent evolution using the linear comparison method.}
+    \label{fig:lyapounov_2}
+\end{figure}
+
+
+
+
+
+
+\paragraph{Third method : Cirle comparison}
+The Third Tychonov method counts the number of cells until one is different between 2 grids by 
+starting from the center of the matrices and turning in a circular motion. When plugged
+in the Lyapounov exponent formula, the exponent tends towards $0^-$.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{res/lyapounov_3.png}
+    \caption{Lyapounov exponent evolution using the circle comparison method.}
+    \label{fig:lyapounov_3}
+\end{figure}
+
+
+
+\subsection*{Appendix B : Availability of the code}
+The code used in this article alongside the latex code of the article iteself can be
+found on the Github : \href{https://github.com/lele394/DynamicalSystem---Game-Of-Life}{github.com/lele394/DynamicalSystem---Game-Of-Life}
+
+
+
 
 \end{document}
